@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="browser_data" />
+
+    <version value="4" />
+
+    <list>
+        <mapping class="com.yfbx.mybrowser.bean.History" />
+        <mapping class="com.yfbx.mybrowser.bean.Favicon" />
+        <mapping class="com.yfbx.mybrowser.bean.BookMark" />
+    </list>
+
+
+</litepal>

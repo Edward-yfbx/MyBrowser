@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/d_24"
+    android:paddingTop="@dimen/d_24">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/menuCollection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/d_8"
+            android:drawableTop="@mipmap/ic_collection"
+            android:gravity="center"
+            android:text="@string/collection" />
+
+        <TextView
+            android:id="@+id/menuCollect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/d_8"
+            android:drawableTop="@mipmap/ic_collect"
+            android:gravity="center"
+            android:text="@string/collect" />
+
+        <TextView
+            android:id="@+id/menuHistory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/d_8"
+            android:drawableTop="@mipmap/ic_history"
+            android:gravity="center"
+            android:text="@string/history" />
+
+
+        <TextView
+            android:id="@+id/menuRefresh"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/d_8"
+            android:drawableTop="@mipmap/ic_refresh"
+            android:gravity="center"
+            android:text="@string/refresh" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d_16">
+
+
+        <TextView
+            android:id="@+id/menuSetting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/d_8"
+            android:drawableTop="@mipmap/ic_setting"
+            android:gravity="center"
+            android:text="@string/setting" />
+
+        <TextView
+            android:id="@+id/menuNight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/d_8"
+            android:drawableTop="@mipmap/ic_night"
+            android:gravity="center"
+            android:text="@string/night_mode" />
+
+        <TextView
+            android:id="@+id/menuDownload"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/d_8"
+            android:drawableTop="@mipmap/ic_download_file"
+            android:gravity="center"
+            android:text="@string/download" />
+
+        <TextView
+            android:id="@+id/menuExit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/d_8"
+            android:drawableTop="@mipmap/ic_exit"
+            android:gravity="center"
+            android:text="@string/exit" />
+
+    </LinearLayout>
+</LinearLayout>

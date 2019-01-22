@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">浏览器</string>
+
+    <string name="collection">收藏</string>
+    <string name="collect">添加收藏</string>
+    <string name="history">历史</string>
+    <string name="download">下载</string>
+    <string name="refresh">刷新</string>
+    <string name="setting">设置</string>
+    <string name="night_mode">夜间模式</string>
+    <string name="clear">清除</string>
+    <string name="exit">退出</string>
+</resources>

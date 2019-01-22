@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+
+    <EditText
+        android:id="@+id/searchTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/d_16"
+        android:layout_marginRight="@dimen/d_16"
+        android:layout_weight="1"
+        android:background="@drawable/round_solid_light_gray"
+        android:imeOptions="actionSearch"
+        android:padding="@dimen/d_8"
+        android:singleLine="true"
+        android:textColor="@color/font"
+        android:textSize="@dimen/s_12"
+        tools:text="http://www.baidu.com" />
+
+</LinearLayout>
