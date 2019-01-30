@@ -42,15 +42,6 @@ android {
         }
     }
 
-    configurations.all {
-        resolutionStrategy {
-            eachDependency { DependencyResolveDetails details ->
-                if (details.requested.group == 'com.android.support') {
-                    details.useVersion '27.1.1'
-                }
-            }
-        }
-    }
 }
 
 dependencies {
@@ -69,5 +60,8 @@ dependencies {
     //Litepal
     implementation 'org.litepal.android:kotlin:3.0.0'
     //Picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation('com.squareup.picasso:picasso:2.71828') {
+        exclude group: 'com.android.support'
+    }
+
 }

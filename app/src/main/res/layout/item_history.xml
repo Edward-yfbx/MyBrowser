@@ -10,10 +10,10 @@
 
     <ImageView
         android:id="@+id/historyIcon"
-        android:layout_width="@dimen/d_48"
-        android:layout_height="@dimen/d_48"
-        android:padding="@dimen/d_16"
-        android:src="@mipmap/logo_baidu" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/d_10"
+        android:src="@mipmap/ic_world" />
 
 
     <LinearLayout

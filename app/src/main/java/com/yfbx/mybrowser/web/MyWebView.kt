@@ -7,7 +7,6 @@ import android.net.http.SslError
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.webkit.*
-import com.yfbx.mybrowser.bean.Favicon
 import com.yfbx.mybrowser.listener.GestureListener
 
 /**
@@ -122,16 +121,6 @@ class MyWebView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             listener.onProgressChanged(view, newProgress)
-        }
-
-
-        override fun onReceivedTitle(view: WebView?, title: String?) {
-        }
-
-        override fun onReceivedIcon(view: WebView?, icon: Bitmap?) {
-            if (icon != null) {
-                Favicon().save(url, icon)
-            }
         }
     }
 }

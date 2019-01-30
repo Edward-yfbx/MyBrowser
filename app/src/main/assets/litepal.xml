@@ -6,7 +6,6 @@
 
     <list>
         <mapping class="com.yfbx.mybrowser.bean.History" />
-        <mapping class="com.yfbx.mybrowser.bean.Favicon" />
         <mapping class="com.yfbx.mybrowser.bean.BookMark" />
     </list>
 

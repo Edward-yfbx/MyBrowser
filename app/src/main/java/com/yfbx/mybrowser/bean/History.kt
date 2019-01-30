@@ -19,11 +19,4 @@ class History() : LitePalSupport() {
         this.url = url
     }
 
-    /**
-     * 查找图标
-     */
-    fun getFavicon(): String {
-        val favicon = Favicon().find(url)
-        return favicon?.path ?: ""
-    }
 }

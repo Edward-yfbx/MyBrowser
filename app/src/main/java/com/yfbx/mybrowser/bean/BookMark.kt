@@ -26,13 +26,4 @@ class BookMark : LitePalSupport() {
             save()
         }
     }
-
-    /**
-     * 查找图标
-     */
-    fun getFavicon(): String {
-        val favicon = Favicon().find(url)
-        return favicon?.path ?: ""
-    }
-
 }
