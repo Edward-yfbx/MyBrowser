@@ -45,7 +45,7 @@ fun Job.onError(onError: (code: String, message: String) -> Unit): Job {
  * Gson Converter
  */
 val NET = Retrofit.Builder()
-        .baseUrl("")
+        .baseUrl("https://www.baidu.com")
         .client(OkHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
