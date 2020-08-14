@@ -1,32 +1,29 @@
 package com.yfbx.mybrowser.util
 
-import android.support.annotation.StringRes
+import android.annotation.SuppressLint
 import android.widget.Toast
-import com.yfbx.mybrowser.App.Companion.app
+import com.yfbx.mybrowser.App
+
 
 /**
- * Author: Edward
- * Date: 2018/12/20
- * Description:
+ * Toast 工具类
+ *
+ * @author xuzeyang
+ * @date 2017/10/25
  */
+private var toast: Toast? = null
 
-val toast: Toast by lazy { Toast.makeText(app, "", Toast.LENGTH_SHORT) }
-
-
-fun show(msg: String) {
-    toast.setText(msg)
-    toast.duration = Toast.LENGTH_SHORT
-    toast.show()
+@SuppressLint("ShowToast")
+fun toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
+    if (message == null || message.isEmpty()) return
+    toast?.cancel()
+    toast = Toast.makeText(App.app, message, duration)
+    toast?.show()
 }
 
-fun show(@StringRes msg: Int) {
-    toast.setText(msg)
-    toast.duration = Toast.LENGTH_SHORT
-    toast.show()
-}
-
-fun show(msg: String, duration: Int) {
-    toast.setText(msg)
-    toast.duration = duration
-    toast.show()
+@SuppressLint("ShowToast")
+fun toast(message: Int, duration: Int = Toast.LENGTH_SHORT) {
+    toast?.cancel()
+    toast = Toast.makeText(App.app, message, duration)
+    toast?.show()
 }

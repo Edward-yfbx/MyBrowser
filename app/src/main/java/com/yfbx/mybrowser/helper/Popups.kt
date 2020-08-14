@@ -1,20 +1,20 @@
-package com.yfbx.mybrowser.helper;
+package com.yfbx.mybrowser.helper
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.PagerSnapHelper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.annotation.LayoutRes
 import com.squareup.picasso.Picasso
+import com.yfbx.adapter.adapter
 import com.yfbx.mybrowser.R
-import com.yfbx.mybrowser.adapter.GalleryAdapter
 import kotlinx.android.synthetic.main.dialog_gallery.view.*
 import kotlinx.android.synthetic.main.dialog_img.view.*
 import kotlinx.android.synthetic.main.dialog_menu.view.*
+import kotlinx.android.synthetic.main.item_picture.view.*
 
 /**
  * Author: Edward
@@ -71,8 +71,9 @@ class Popups(private val context: Context) : PopupWindow() {
      */
     fun showGalleryPopup(parent: View, gallery: MutableList<String>) {
         create(MATCH, MATCH, R.layout.dialog_gallery)
-        contentView.galleryRecycler.adapter = GalleryAdapter(gallery)
-        PagerSnapHelper().attachToRecyclerView(contentView.galleryRecycler)
+        contentView.galleryPager.adapter = adapter(R.layout.item_picture, gallery) { helper, item ->
+            Picasso.get().load(item).into(helper.itemView.item_gallery)
+        }
         contentView.galleryClose.setOnClickListener { dismiss() }
         showAtLocation(parent, Gravity.CENTER, 0, 0)
     }

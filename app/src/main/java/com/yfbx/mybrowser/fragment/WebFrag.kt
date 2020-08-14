@@ -14,8 +14,7 @@ import android.webkit.WebView
 import com.squareup.picasso.Picasso
 import com.yfbx.mybrowser.R
 import com.yfbx.mybrowser.bean.History
-import com.yfbx.mybrowser.constants.getHomePage
-import com.yfbx.mybrowser.constants.getSearchUrl
+import com.yfbx.mybrowser.constants.SearchEngine
 import com.yfbx.mybrowser.helper.BitmapTarget
 import com.yfbx.mybrowser.helper.Popups
 import com.yfbx.mybrowser.model.WebModel
@@ -32,21 +31,20 @@ import kotlinx.android.synthetic.main.frag_web.*
 
 class WebFrag : BaseFragment(), ClientListener, ChromeListener {
 
-    val model = WebModel()
+    private val model = WebModel()
 
     override fun onCreate(view: View, savedInstanceState: Bundle?) {
         web_txt.setOnKeyListener { v, keyCode, event -> onEnterKey(v, keyCode, event) }
         mWebView.setOnClientListener(this)
         mWebView.setOnChromeListener(this)
 
-        if (arguments != null) {
-            mWebView.loadUrl(arguments!!.getString("url"))
-        } else {
+        val url = arguments?.getString("url")
+        if (url.isNullOrEmpty()) {
             loadHomePage()
+        } else {
+            mWebView.loadUrl(url)
         }
-
         registerForContextMenu(mWebView)
-
     }
 
     override fun getLayout(): Int {
@@ -56,10 +54,10 @@ class WebFrag : BaseFragment(), ClientListener, ChromeListener {
     /**
      * 上下文菜单(长按)
      */
-    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         val type = mWebView.hitTestResult.type
         if (type == WebView.HitTestResult.IMAGE_TYPE || type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
-            menu!!.add(0, 0, 0, "查看图片")
+            menu.add(0, 0, 0, "查看图片")
             menu.add(0, 1, 1, "保存图片")
         }
     }
@@ -67,13 +65,13 @@ class WebFrag : BaseFragment(), ClientListener, ChromeListener {
     /**
      * 上下文菜单点击事件
      */
-    override fun onContextItemSelected(item: MenuItem?): Boolean {
-        val url = mWebView.hitTestResult.extra
-        if (item!!.itemId == 0) {
-            Popups(activity!!).showGalleryPopup(mWebView, model.pictures)
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == 0) {
+            Popups(requireActivity()).showGalleryPopup(mWebView, model.pictures)
         }
 
         if (item.itemId == 1) {
+            val url = mWebView.hitTestResult.extra ?: return false
             val fileName = url.substring(url.lastIndexOf("/") + 1)
             Picasso.get().load(url).into(BitmapTarget(fileName))
         }
@@ -84,7 +82,7 @@ class WebFrag : BaseFragment(), ClientListener, ChromeListener {
      * 主页
      */
     fun loadHomePage() {
-        mWebView.loadUrl(getHomePage())
+        mWebView.loadUrl(SearchEngine.getEngine().homePage)
     }
 
 
@@ -124,7 +122,7 @@ class WebFrag : BaseFragment(), ClientListener, ChromeListener {
      * 当前页面的历史记录
      */
     fun getCurrent(): WebHistoryItem {
-        return mWebView.copyBackForwardList().currentItem
+        return mWebView.copyBackForwardList().currentItem!!
     }
 
     /**
@@ -148,7 +146,7 @@ class WebFrag : BaseFragment(), ClientListener, ChromeListener {
     private fun onEnterKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
             if (!TextUtils.isEmpty(web_txt.text)) {
-                mWebView.loadUrl(getSearchUrl(web_txt.text.toString()))
+                mWebView.loadUrl(SearchEngine.search(web_txt.text.toString()))
             }
             return true
         }
@@ -170,6 +168,7 @@ class WebFrag : BaseFragment(), ClientListener, ChromeListener {
 
 
     var reset = false
+
     /**
      * 重定向(在 onPageStarted 之前执行)
      * 重定向(重定向链接)-->开始(重定向链接)-->重定向(目标链接)-->结束(重定向链接)
@@ -185,7 +184,7 @@ class WebFrag : BaseFragment(), ClientListener, ChromeListener {
      * 开始加载
      */
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-        if (url != getHomePage()) {
+        if (url != SearchEngine.getEngine().homePage) {
             web_head.visibility = View.VISIBLE
             web_txt.setText(url)
         } else {
@@ -212,8 +211,10 @@ class WebFrag : BaseFragment(), ClientListener, ChromeListener {
      */
     private fun saveHistory() {
         val item = mWebView.copyBackForwardList().currentItem
-        val title = if (TextUtils.isEmpty(item.title)) item.url else item.title
-        History(title, item.url).save()
+        item?.let {
+            val title = if (TextUtils.isEmpty(it.title)) it.url else it.title
+            History(title, it.url).save()
+        }
     }
 
 

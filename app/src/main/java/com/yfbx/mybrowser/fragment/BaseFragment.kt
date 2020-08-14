@@ -1,12 +1,14 @@
 package com.yfbx.mybrowser.fragment
 
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import com.yfbx.mybrowser.activity.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
 /**
  * Author: Edward
@@ -14,7 +16,7 @@ import com.yfbx.mybrowser.activity.MainActivity
  * Description:
  */
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

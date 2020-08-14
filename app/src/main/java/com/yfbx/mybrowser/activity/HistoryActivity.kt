@@ -5,12 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.yfbx.adapter.adapter
 import com.yfbx.mybrowser.R
-import com.yfbx.mybrowser.adapter.HistoryAdapter
 import com.yfbx.mybrowser.bean.History
+import com.yuxiaor.base.net.network
 import kotlinx.android.synthetic.main.activity_history.*
+import kotlinx.android.synthetic.main.item_history.view.*
 import org.litepal.LitePal
-import kotlin.concurrent.thread
 
 /**
  * Author: Edward
@@ -20,18 +21,16 @@ import kotlin.concurrent.thread
 
 class HistoryActivity : BaseActivity() {
 
-
-    private lateinit var data: MutableList<History>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
         setToolbar(R.string.history)
-
-        findData()
-
+        historyRecycler.adapter = adapter
+        network {
+            val data = History.findAll()
+            adapter.setNewData(data)
+        }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.clear_history, menu)
@@ -43,38 +42,23 @@ class HistoryActivity : BaseActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         LitePal.deleteAll(History::class.java)
-        data.clear()
-        historyRecycler.adapter.notifyDataSetChanged()
+        adapter.clear()
         return true
-    }
-
-    /**
-     * 查找数据
-     *
-     */
-    private fun findData() {
-        thread {
-            data = LitePal.order("id DESC").find(History::class.java)
-            runOnUiThread { setAdapter() }
-        }
-    }
-
-    /**
-     * 设置Adapter
-     */
-    private fun setAdapter() {
-        val adapter = HistoryAdapter(data)
-        historyRecycler.adapter = adapter
-        adapter.setOnItemClick(this::onItemClick)
     }
 
     /**
      * 列表点击事件
      */
-    private fun onItemClick(position: Int, item: History) {
+    private fun onItemClick(item: History) {
         val intent = Intent()
         intent.putExtra("url", item.url)
         setResult(Activity.RESULT_OK, intent)
         finish()
+    }
+
+    private val adapter = adapter<History>(R.layout.item_history) { helper, item ->
+        helper.itemView.historyName.text = item.title
+        helper.itemView.historyLink.text = item.url
+        helper.itemView.setOnClickListener { onItemClick(item) }
     }
 }

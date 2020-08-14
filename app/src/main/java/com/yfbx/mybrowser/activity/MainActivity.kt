@@ -2,17 +2,17 @@ package com.yfbx.mybrowser.activity
 
 import android.Manifest
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.os.Process
 import android.view.View
+import com.yfbx.helper.launchFor
+import com.yfbx.helper.permitFor
 import com.yfbx.mybrowser.R
 import com.yfbx.mybrowser.bean.BookMark
 import com.yfbx.mybrowser.fragment.WebFrag
 import com.yfbx.mybrowser.helper.Popups
-import com.yfbx.mybrowser.util.ResultHelper
 import com.yfbx.mybrowser.util.createAppDirs
-import com.yfbx.mybrowser.util.show
+import com.yfbx.mybrowser.util.toast
 import kotlinx.android.synthetic.main.layout_navigation_bar.*
 
 
@@ -44,11 +44,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
      * 请求权限
      */
     private fun requestPermission() {
-        ResultHelper(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE, {
+        permitFor(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
             if (it) {
                 createAppDirs()
             }
-        })
+        }
     }
 
     /**
@@ -61,7 +61,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             R.id.menuHistory -> onHistory()
             R.id.menuRefresh -> current.reload()
             R.id.menuSetting -> toActivity(SettingActivity::class.java)
-            R.id.menuNight -> show("开发中...")
+            R.id.menuNight -> toast("开发中...")
             R.id.menuDownload -> toActivity(FileActivity::class.java)
             R.id.menuExit -> onExit()
         }
@@ -91,26 +91,26 @@ class MainActivity : BaseActivity(), View.OnClickListener {
      * 收藏夹
      */
     private fun onCollection() {
-        val intent = Intent(this, CollectionActivity::class.java)
-        ResultHelper(this).startForResult(intent, { code, data ->
-            if (code == Activity.RESULT_OK) {
-                val url = data!!.getStringExtra("url")
-                current.load(url)
+        launchFor<CollectionActivity> {
+            if (it.resultCode == Activity.RESULT_OK) {
+                it.data?.getStringExtra("url")?.let { url ->
+                    current.load(url)
+                }
             }
-        })
+        }
     }
 
     /**
      * 历史
      */
     private fun onHistory() {
-        val intent = Intent(this, HistoryActivity::class.java)
-        ResultHelper(this).startForResult(intent, { code, data ->
-            if (code == Activity.RESULT_OK) {
-                val url = data!!.getStringExtra("url")
-                current.load(url)
+        launchFor<HistoryActivity> {
+            if (it.resultCode == Activity.RESULT_OK) {
+                it.data?.getStringExtra("url")?.let { url ->
+                    current.load(url)
+                }
             }
-        })
+        }
     }
 
     /**

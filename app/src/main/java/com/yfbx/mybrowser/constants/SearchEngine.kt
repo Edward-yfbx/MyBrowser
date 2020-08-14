@@ -1,6 +1,6 @@
 package com.yfbx.mybrowser.constants
 
-import com.yfbx.mybrowser.util.getEngine
+import com.yfbx.mybrowser.util.pref
 
 /**
  * Author: Edward
@@ -8,45 +8,44 @@ import com.yfbx.mybrowser.util.getEngine
  * Description:
  */
 
+object SearchEngine {
 
-val BAIDU = 0
-val GOOGLE = 1
-
-
-val HOME_BAIDU = "file:///android_asset/baidu.html"
-val HOME_GOOGLE = "https://www.google.com"
-
-
-fun getHomePage(): String {
-    if (getEngine() == BAIDU) {
-        return HOME_BAIDU
-    }
-    if (getEngine() == GOOGLE) {
-        return HOME_GOOGLE
-    }
-    return HOME_BAIDU
-}
-
-
-
-/**
- * 搜索
- */
-fun getSearchUrl(key: String): String {
-    if (key.startsWith("http")) {
-        return key
-    }
-    if (key.contains("www") || key.contains(".com") || key.contains(".cn")) {
-        return "http://$key"
+    enum class Engine(val code: Int, val homePage: String) {
+        BAIDU(0, "file:///android_asset/baidu.html"),
+        GOOGLE(1, "https://www.google.com")
     }
 
-    //百度搜索
-    if (getEngine() == BAIDU) {
-        return "https://m.baidu.com/s?word=" + key
+    private var engine = Engine.BAIDU
+
+    private var enginePref: Int by pref(0)
+
+    /**
+     * 设置搜索引擎
+     */
+    fun setEngine(engine: Engine) {
+        this.engine = engine
+        enginePref = engine.code
     }
-    //谷歌搜索
-    if (getEngine() == GOOGLE) {
-        return "https://www.google.com/search?q=" + key
+
+
+    fun getEngine(): Engine {
+        return engine
     }
-    return "https://m.baidu.com/s?word=" + key
+
+    /**
+     * 搜索
+     */
+    fun search(key: String): String {
+        if (key.startsWith("http")) {
+            return key
+        }
+        if (key.contains("www") || key.contains(".com") || key.contains(".cn")) {
+            return "http://$key"
+        }
+        return when (engine) {
+            Engine.BAIDU -> "https://m.baidu.com/s?word=$key"
+            Engine.GOOGLE -> "https://www.google.com/search?q=$key"
+        }
+    }
+
 }

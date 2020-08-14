@@ -3,11 +3,13 @@ package com.yfbx.mybrowser.activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
 
 /**
@@ -16,7 +18,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
  * Description:
  */
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +32,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun setToolbar(@StringRes title: Int) {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
-        toolbar.setNavigationOnClickListener({ v -> onBackPressed() })
+        //toolbar.setNavigationOnClickListener({ v -> onBackPressed() })
         toolbarTxt.setText(title)
     }
 

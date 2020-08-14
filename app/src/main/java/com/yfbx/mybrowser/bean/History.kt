@@ -1,6 +1,12 @@
 package com.yfbx.mybrowser.bean
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.litepal.LitePal
 import org.litepal.crud.LitePalSupport
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Author: Edward
@@ -19,4 +25,14 @@ class History() : LitePalSupport() {
         this.url = url
     }
 
+
+    companion object {
+
+        suspend fun findAll() = suspendCoroutine<List<History>> { ctx ->
+            GlobalScope.launch(Dispatchers.IO) {
+                val data = LitePal.order("id DESC").find(History::class.java)
+                ctx.resume(data)
+            }
+        }
+    }
 }

@@ -5,10 +5,9 @@ import android.graphics.drawable.Drawable
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.yfbx.mybrowser.util.FILE_IMG
-import com.yfbx.mybrowser.util.show
+import com.yfbx.mybrowser.util.toast
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.Exception
 
 /**
  * Author: Edward
@@ -23,7 +22,7 @@ class BitmapTarget(val fileName: String) : Target {
     }
 
     override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-        show("下载失败")
+        toast("下载失败")
     }
 
     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
@@ -34,7 +33,7 @@ class BitmapTarget(val fileName: String) : Target {
             outStream.flush()
             outStream.close()
         } else {
-            show("下载失败")
+            toast("下载失败")
         }
     }
 

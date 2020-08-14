@@ -28,7 +28,7 @@
 -dontusemixedcaseclassnames      # 不使用大小写混合
 -dontpreverify                    # 不做预校验
 -verbose                           # 记录日志
--ignorewarning                    # 忽略警告
+-ignorewarnings                    # 忽略警告
 
 #生成日志数据，gradle build时在本项目根目录输出
 -dump class_files.txt            #apk包内所有class的内部结构
@@ -49,9 +49,6 @@
 -dontwarn javax.annotation.**
 -dontwarn kotlin.Unit
 
-#不混淆support包中的所有内容
--keep class android.support.** { *; }
--keep public class * extends android.support.**
 
 #不混淆R文件
 -keepclassmembers class **.R$* { *;}
