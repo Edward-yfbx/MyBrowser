@@ -223,7 +223,7 @@ class WebFrag : BaseFragment(), ClientListener, ChromeListener {
      */
     private fun collectImage() {
         mWebView.addJavascriptInterface(model, "imageListener")
-        mWebView.loadUrl(model.grapPictureScript())
+        mWebView.loadUrl(model.grapePictureScript())
     }
 
 
