@@ -81,8 +81,6 @@ dependencies {
     //Litepal
     implementation 'org.litepal.android:kotlin:3.0.0'
     //Picasso
-    implementation('com.squareup.picasso:picasso:2.71828') {
-        exclude group: 'com.android.support'
-    }
+    implementation 'com.squareup.picasso:picasso:2.8'
 
 }
